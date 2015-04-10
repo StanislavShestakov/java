@@ -1,0 +1,1008 @@
+package com.company;
+
+
+        import java.io.CharConversionException;
+        import java.io.IOException;
+        import java.nio.file.FileSystemException;
+
+/* Перехват выборочных исключений
+1. Разберись, какие исключения бросает метод BEAN.methodThrowExceptions.
+2. Метод processExceptions должен вызывать метод BEAN.methodThrowExceptions и обрабатывать исключения:
+2.1. если возникло исключение FileSystemException, то логировать его (вызвать метод BEAN.log) и пробросить дальше
+2.2. если возникло исключение CharConversionException или любое другое IOException, то только логировать его - вызвать метод BEAN.log
+3. Добавь в сигнатуру метода processExceptions класс исключения, которое ты пробрасываешь в п.2.1.
+4. В методе main обработай оставшееся исключение - логируй его. Используй try..catch
+
+Подсказка:
+Если ты захватил исключение MyException, которое не хотел захватывать, его можно пробросить дальше кодом вида:
+catch (MyException e) {
+throw e;
+}
+*/
+
+public class Main {
+    public static StatelessBean BEAN = new StatelessBean();
+
+    public static void main(String[] args) {
+        try
+        {
+            processExceptions();
+        }
+        catch(Exception e)
+        {
+            BEAN.log(e);
+        }
+    }
+
+    public static void processExceptions() throws FileSystemException{
+        try
+        {
+            BEAN.methodThrowExceptions();
+        }
+        catch(FileSystemException e)
+        {
+            BEAN.log(e);
+        }
+        catch(Exception e)
+        {
+            BEAN.log(e);
+        }
+
+    }
+
+    public static class StatelessBean {
+        public void log(Exception exception) {
+            System.out.println(exception.getMessage() + ", " + exception.getClass().getSimpleName());
+        }
+
+        public void methodThrowExceptions() throws CharConversionException, FileSystemException, IOException {
+            int i = (int) (Math.random() * 3);
+            if (i == 0)
+                throw new CharConversionException();
+            if (i == 1)
+                throw new FileSystemException("");
+            if (i == 2)
+                throw new IOException();
+        }
+    }
+}
+
+8 урок
+
+
+public class Solution {
+    public static void main(String[] args){
+
+        try
+        {
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            String fileName = reader.readLine();
+            reader.close();
+
+            BufferedReader readFile = new BufferedReader(new FileReader(fileName));
+
+            String string = "";
+            String temp;
+            while (readFile.ready())
+            {
+                temp = readFile.readLine();
+                temp.trim();
+                string += temp + " ";
+            }
+            string.trim();
+
+            readFile.close();
+
+        StringBuilder result = getLine(string.split(" "));
+        System.out.println(result.toString());
+
+        }
+        catch (Exception e)
+        {
+
+        }
+    }
+
+    public static StringBuilder getLine(String... words) {
+        StringBuilder result = new StringBuilder();
+        if (words== null)
+            return result;
+
+        if (words.length == 1)
+            return result;
+
+        ArrayList<String> list = new ArrayList<String>();
+        for (int i = 0; i < words.length; i ++)
+            if (!words[i].equals(""))
+                list.add(words[i]);
+
+
+
+        while (!isOK(list))   //  Меняем пока последовательность не получится правильной
+        {
+            Collections.shuffle(list);
+        }
+
+        for (String s : list)            //Составляем строку
+            result.append(s+ " ");
+
+        result.deleteCharAt(result.length()-1);  // Удаляем последний пробел
+
+        return result;
+    }
+
+    public static boolean isOK(ArrayList<String> list)   // Проверка последовательности
+    {
+
+        for (int i = 0; i < list.size()-1; i++)
+        {
+            String first = list.get(i);
+            String second = list.get(i+1);
+            first = first.toLowerCase();   // переводим в 1 регистр
+            second =second.toLowerCase();
+
+            if (first.charAt(first.length()-1)!=second.charAt(0))
+                return false;
+
+        }
+
+        return true;
+    }
+}
+
+http://info.javarush.ru/JavaRush_lectures_discussion/2013/06/12/lecture-9.html
+package com.javarush.test.level10.lesson04.task01;
+
+/* Задача №1 на преобразование целых типов
+Расставь где нужно оператор приведения типа:
+byte a = 1234;
+int b = a;
+byte c = a * a;
+int d = a / c;
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+        byte a = (byte)1234;
+        int b = a;
+        byte c = (byte)(a * a);
+        int d = a / c;
+    }
+}
+
+package com.javarush.test.level10.lesson04.task02;
+
+/* Задача №2 на преобразование целых типов
+Расставь где нужно оператор приведения типа:
+int a = 15;
+int b = 4;
+float c = (a / (double)b);
+double d = a * 1e-3;
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+        int a = 15;
+        int b = 4;
+        float c = (float)(a / (double)b);
+        double d = a * 1e-3;
+
+        System.out.println(c + d);
+    }
+}
+
+package com.javarush.test.level10.lesson04.task03;
+
+/* Задача №3 на преобразование целых типов
+Расставь где нужно оператор приведения типа:
+float f = 333.50;
+int i = f;
+byte b = i;
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+        float f = (float)333.50;
+        int i= (int)f;
+        byte b = (byte)i;
+    }
+}
+
+package com.javarush.test.level10.lesson04.task04;
+
+/* Задача №4 на преобразование целых типов
+Расставь где нужно оператор приведения типа:
+short number = 9;
+char zero = '0';
+char nine = zero + number;
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+        short number = 9;
+        char zero = (char)('0');
+        char nine = (char)(zero + number);
+    }
+}
+
+package com.javarush.test.level10.lesson04.task05;
+
+/* Задача №5 на преобразование целых типов
+Расставь где нужно оператор приведения типа:
+short number = 9;
+char zero = '0';
+short nineCode = zero + number;
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+        short number = 9;
+        char zero = (char)('0');
+        short nineCode = (short)(zero + number);
+    }
+}
+
+package com.javarush.test.level04.lesson02.task04;
+
+/* Реализовать метод setName
+Реализовать метод setName, чтобы с его помощью можно было устанавливать значение переменной private String fullName равное значению локальной переменной String fullName.
+*/
+
+public class Cat {
+    private String fullName;
+
+    public void setName(String firstName, String lastName) {
+        String fullName = firstName + " " + lastName;
+        this.fullName =  fullName;
+    }
+}
+
+
+package com.javarush.test.level04.lesson13.task02;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+/* Рисуем прямоугольник
+Ввести с клавиатуры два числа m и n.
+Используя цикл for вывести на экран прямоугольник размером m на n из восьмёрок.
+Пример: m=2, n=4
+8888
+8888
+*/
+
+public class Solution
+{
+    public static void main(String[] args) throws Exception
+    {
+         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        int m = Integer.parseInt(reader.readLine());
+        int n = Integer.parseInt(reader.readLine());
+ 
+        for (int i1 = 0; i1 < m; i1++){
+            for (int i2 = 0; i2 < n; i2++){
+                System.out.print(8);
+            }
+            System.out.println("");
+        }
+       
+    }
+}
+
+package com.javarush.test.level05.lesson05.task03;
+
+/* Геттеры и сеттеры для класса Dog
+Создать class Dog. У собаки должна быть кличка String name и возраст int age.
+Создайте геттеры и сеттеры для всех переменных класса Dog.
+*/
+
+public class Dog {
+     public String name;
+    public int age;
+ 
+    public String getName(){
+        return name;
+    }
+    public void setName(String name){
+        this.name = name;
+    }
+ 
+    public int getAge(){
+        return age;
+    }
+    public void setAge(int age){
+        this.age = age;
+    }
+}
+
+
+package com.javarush.test.level09.lesson08.task05;
+
+/* Перехват unchecked исключений
+В методе processExceptions обработайте все unchecked исключения.
+Нужно вывести стек-трейс каждого возникшего исключения используя метод printStack.
+Можно использовать только один блок try..
+*/
+
+public class Solution
+{
+    public static void main(String[] args) {
+        processExceptions(new Solution());
+    }
+
+    public static void processExceptions(Solution obj) {
+        try {
+            obj.method1();
+            obj.method2();
+            obj.method3();
+        }
+        catch (Exception e)
+        {
+            printStack(e);
+        }
+    }
+
+    public static void printStack(Throwable throwable) {
+        System.out.println(throwable);
+        for (StackTraceElement element : throwable.getStackTrace()) {
+            System.out.println(element);
+        }
+    }
+
+    public void method1(){
+        throw new NullPointerException();
+    }
+
+    public void method2() {
+        throw new IndexOutOfBoundsException();
+    }
+
+    public void method3() {
+        throw new NumberFormatException();
+    }
+}
+
+package com.javarush.test.level09.lesson08.task04;
+
+import java.io.IOException;
+import java.rmi.RemoteException;
+
+/* Перехват checked исключений
+В методе processExceptions обработайте все checked исключения.
+Нужно вывести на экран каждое возникшее checked исключение.
+Можно использовать только один блок try..
+*/
+
+public class Solution {
+    public static void main(String[] args) {
+        processExceptions(new Solution());
+
+    }
+
+    public static void processExceptions(Solution obj) {
+        try /*п.1 - создаём один try и в него записываем
+            все методы*/
+        {
+            obj.method1();
+            obj.method2();
+            obj.method3();
+        }
+ 
+        //п.2 создаем catch под первый возникший Exception
+        catch (IOException e){
+            System.out.println(e);
+        }
+ 
+        //п.3 создаем catch под второй возникший Exception
+        catch (NoSuchFieldException e){
+            System.out.println(e);
+        }
+        
+        //всё-задача
+    }
+
+    public void method1() throws IOException {
+        throw new IOException();
+    }
+
+    public void method2() throws NoSuchFieldException {
+        throw new NoSuchFieldException();
+    }
+
+    public void method3() throws RemoteException {
+        throw new RemoteException();
+    }
+}
+
+package com.javarush.test.level09.lesson08.task03;
+
+import java.io.CharConversionException;
+import java.io.IOException;
+import java.nio.file.FileSystemException;
+
+/* Перехват выборочных исключений
+1. Разберись, какие исключения бросает метод BEAN.methodThrowExceptions.
+2. Метод processExceptions должен вызывать метод BEAN.methodThrowExceptions и обрабатывать исключения:
+2.1. если возникло исключение FileSystemException, то логировать его (вызвать метод BEAN.log) и пробросить дальше
+2.2. если возникло исключение CharConversionException или любое другое IOException, то только логировать его - вызвать метод BEAN.log
+3. Добавь в сигнатуру метода processExceptions класс исключения, которое ты пробрасываешь в п.2.1.
+4. В методе main обработай оставшееся исключение - логируй его. Используй try..catch
+
+Подсказка:
+Если ты захватил исключение MyException, которое не хотел захватывать, его можно пробросить дальше кодом вида:
+catch (MyException e) {
+throw e;
+}
+*/
+
+public class Solution {
+    public static StatelessBean BEAN = new StatelessBean();
+
+    public static void main(String[] args) {
+        try {
+        processExceptions();
+        }
+        catch(FileSystemException e) {
+        BEAN.log(e);
+        }
+    }
+
+    public static void processExceptions() throws FileSystemException  {
+       try {
+        BEAN.methodThrowExceptions();
+        }
+        catch (FileSystemException e) {
+            BEAN.log(e);
+            throw e;
+        }
+        catch (CharConversionException e) {
+            BEAN.log(e) ;
+        }
+        catch (IOException e) {
+            BEAN.log(e);
+        }
+    }
+
+    public static class StatelessBean {
+        public void log(Exception exception) {
+            System.out.println(exception.getMessage() + ", " + exception.getClass().getSimpleName());
+        }
+
+        public void methodThrowExceptions() throws CharConversionException, FileSystemException, IOException {
+            int i = (int) (Math.random() * 3);
+            if (i == 0)
+                throw new CharConversionException();
+            if (i == 1)
+                throw new FileSystemException("");
+            if (i == 2)
+                throw new IOException();
+        }
+    }
+}
+
+
+
+package com.javarush.test.level12.lesson02.task03;
+
+/* Кот от кота, а собака от собаки
+Переопределить метод getChild в классах Cat(кот) и Dog(собака), чтобы кот порождал кота, а собака – собаку.
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+        Pet pet1 = new Cat();
+        Pet cat = pet1.getChild();
+
+        Pet pet2 = new Dog();
+        Pet dog = pet2.getChild();
+    }
+
+    public static class Pet
+    {
+        public Pet getChild()
+        {
+            return new Pet();
+        }
+    }
+
+    public static class Cat extends Pet
+    {
+            public Cat getChild()
+            {
+                 return new Cat();
+            }
+
+    }
+
+    public static class Dog extends Pet
+    {       
+            public Dog getChild()
+            {
+                return new Dog();
+            }
+
+
+    }
+}
+
+
+
+ package com.javarush.test.level12.lesson02.task04;
+
+/* Или «Кошка», или «Собака», или «Птица», или «Лампа»
+Написать метод, который определяет, объект какого класса ему передали, и выводит на экран одну из надписей: «Кошка», «Собака», «Птица», «Лампа».
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+        printObjectType(new Cat());
+        printObjectType(new Bird());
+        printObjectType(new Lamp());
+        printObjectType(new Cat());
+        printObjectType(new Dog());
+    }
+
+    public static void printObjectType(Object o)
+    {
+      if(o instanceof Cat)
+      {
+        System.out.println("Кошка");
+      }
+       if(o instanceof Dog)
+      {
+        System.out.println("Собака");
+      }
+        if(o instanceof Lamp)
+      {
+        System.out.println("Лампа");
+      }
+       if(o instanceof Bird)
+      {
+        System.out.println("Птица");
+      }
+    }
+
+    public static class Cat
+    {
+    }
+
+    public static class Dog
+    {
+    }
+
+    public static class Bird
+    {
+    }
+
+    public static class Lamp
+    {
+    }
+}
+
+
+package com.javarush.test.level12.lesson02.task05;
+
+/* Или «Корова», или «Кит», или «Собака», или «Неизвестное животное»
+Написать метод, который определяет, объект какого класса ему передали, и возвращает результат – одно значение из: «Корова», «Кит», «Собака», «Неизвестное животное».
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+        System.out.println(getObjectType(new Cow()));
+        System.out.println(getObjectType(new Dog()));
+        System.out.println(getObjectType(new Whale()));
+        System.out.println(getObjectType(new Pig()));
+    }
+
+    public static String getObjectType(Object o)
+    {
+       if(o instanceof Cow)
+      {
+        return "Корова";
+      }
+      else if(o instanceof Dog)
+      {
+        return "Собака";
+      }
+      else if(o instanceof Pig)
+      {
+        return "Неизвестное животное";
+      }
+      else if(o instanceof Whale)
+      {
+        return "Кит";
+      }
+      else
+      {
+        return "Неизвестное животное";
+      }
+      
+    }
+
+    public static class Cow
+    {
+    }
+
+    public static class Dog
+    {
+    }
+
+    public static class Whale
+    {
+    }
+
+    public static class Pig
+    {
+    }
+}
+
+package com.javarush.test.level12.lesson04.task01;
+
+/* print(int) и print(String)
+Написать два метода: print(int) и print(String).
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+
+    }
+
+      public void print(int i)
+     {
+     }
+     public void print(String i)
+    {
+    }
+
+}
+
+
+package com.javarush.test.level12.lesson04.task02;
+
+/* print(int) и print(Integer)
+Написать два метода: print(int) и print(Integer).
+Написать такой код в методе main, чтобы вызвались они оба.
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+    Integer i = 1;
+    int j = 0;
+    print(i);
+    print(j);
+
+
+    }
+
+   
+    public static void print(int i)
+     {
+     }
+     public static void print(Integer i)
+    {
+    }
+}
+
+package com.javarush.test.level12.lesson04.task04;
+
+/* Три метода возвращают минимальное из двух переданных в него чисел
+Написать public static методы: int min(int, int), long min(long, long), double min(double, double).
+Каждый метод должен возвращать минимальное из двух переданных в него чисел.
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+
+    }
+     public static int min(int i, int j)
+     {
+     if(i > j)
+     {
+        return j;
+     }
+     else return i;
+     }
+      public static long min(long i, long j)
+     {
+     if(i > j)
+     {
+        return j;
+     }
+     else return i;
+     }
+      public static double min(double i, double j)
+     {
+     if(i > j)
+     {
+        return j;
+     }
+     else return i;
+     }
+}
+
+
+package com.javarush.test.level12.lesson06.task01;
+
+/* Абстрактный класс Pet
+Сделать класс Pet абстрактным.
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+
+    }
+
+    public abstract class Pet
+    {
+        public String getName()
+        {
+            return "Я - котенок";
+        }
+     public  abstract void getAge();
+        
+    }
+
+}
+
+
+
+package com.javarush.test.level12.lesson06.task05;
+
+/* Классы Cat и Dog от Pet
+Унаследуй классы Cat и Dog от Pet.
+Реализуй недостающие методы. Классы Cat и Dog не должны быть абстрактными.
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+
+    }
+
+    public static abstract class Pet
+    {
+        public abstract String getName();
+        public abstract Pet getChild();
+    }
+
+    public static class Cat extends Pet
+    {
+         public  String Name = "xd"; 
+         Pet Child = new Cat();  
+         public String getName(){
+            return Name;
+         }  
+         public Pet getChild(){
+            return Child;
+         }
+
+    }
+
+    public static class Dog  extends Pet
+    {
+        public  String Name = "xd";
+         Pet Child = new Dog();  
+         public String getName(){
+            return Name;
+         }  
+         public Pet getChild(){
+            return Child;
+         }
+
+    }
+
+}
+
+package com.javarush.test.level12.lesson09.task01;
+
+/* Интерфейс Fly
+Напиши свой public интерфейс Fly(летать). Добавь в него два метода.
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+
+    }
+    interface Fly
+    {
+     void canfly();
+     void canfly1();
+    }
+
+}
+
+
+
+package com.javarush.test.level12.lesson09.task03;
+
+/* Fly, Run, Swim для классов Dog, Fish, Bird, Airplane
+Есть public интерфейсы Fly(летать), Run(бежать/ездить), Swim(плавать).
+Добавь эти интерфейсы классам Dog(собака), Fish(рыба), Bird(птица), Airplane(самолет).
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+
+    }
+
+    public interface Fly
+    {
+        public void fly();
+    }
+
+    public interface Run
+    {
+        public void run();
+    }
+
+    public interface Swim
+    {
+        public void swim();
+    }
+
+    public class Dog implements Fly, Run, Swim 
+    {
+        public void fly(){}
+         public void run(){}
+          public void swim(){}
+    }
+
+    public class Fish implements Fly, Run, Swim 
+    {
+        public void fly(){}
+         public void run(){}
+          public void swim(){}
+    }
+
+    public class Bird  implements Fly, Run, Swim 
+    {
+        public void fly(){}
+         public void run(){}
+          public void swim(){}
+    }
+
+    public class Airplane implements Fly, Run, Swim 
+    {
+            public void fly(){}
+            public void run(){}
+            public void swim(){}
+    }
+}
+
+package com.javarush.test.level12.lesson09.task03;
+
+/* Fly, Run, Swim для классов Dog, Fish, Bird, Airplane
+Есть public интерфейсы Fly(летать), Run(бежать/ездить), Swim(плавать).
+Добавь эти интерфейсы классам Dog(собака), Fish(рыба), Bird(птица), Airplane(самолет).
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+
+    }
+
+    public interface Fly
+    {
+        public void fly();
+    }
+
+    public interface Run
+    {
+        public void run();
+    }
+
+    public interface Swim
+    {
+        public void swim();
+    }
+
+    public class Dog implements Run, Swim
+    {
+        public void run()
+        {
+        }
+        public void swim()
+        {
+        }
+
+    }
+
+    public class Fish implements Swim 
+    {
+        public void swim()
+        {
+        }
+    }
+
+    public class Bird implements Fly, Run, Swim 
+    {
+        public void fly()
+        {
+        }
+         public void run()
+        {
+        }
+         public void swim()
+        {
+        }
+
+    }
+
+    public class Airplane implements Fly, Run
+    {
+        public void fly()
+        {
+        }
+         public void run()
+        {
+        }
+    }
+}
+
+
+package com.javarush.test.level12.lesson09.task05;
+
+/* Класс Human и интерфейсы Run, Swim
+Напиши public класс Human(человек) и  public интерфейсы Run(бежать/ездить), Swim(плавать).
+Добавь в каждый интерфейс по одному методу.
+Добавь эти интерфейсы классу Human, но не реализуй методы.
+Объяви класс Human абстрактным.
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+
+    }
+
+    public interface Run
+    {
+        public void run();
+    }
+
+    public interface Swim
+    {
+        public void swim();
+    }
+       public abstract class  Human implements Run, Swim 
+    {
+
+    }
+}
+
+
+
+

@@ -1,0 +1,55 @@
+package com.javarush.test.level10.lesson11.home01;
+
+/* ѕравильный ответ: d=2.941
+ƒобавить одну операцию по преобразованию типа, чтобы получалс€ ответ: d=2.941.
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+        int a = 50;
+        double b = 17;
+        double d = ( double ) a / b;
+        System.out.println( Math.rint(1000.0 * d) / 1000.0);
+    }
+}
+
+package com.javarush.test.level10.lesson11.home02;
+
+/* ѕравильный ответ: d=5.5
+ƒобавить одну операцию по преобразованию типа, чтобы получалс€ ответ: d=5.5.
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+        int a = 5;
+        int b = 4;
+        int c = 3;
+        int e = 2;
+        double d = a + b/c/ ( double )e;
+        System.out.println(Math.rint(10.0 * d) / 10.0);
+    }
+}
+
+package com.javarush.test.level10.lesson11.home03;
+
+/* ѕравильный ответ: d=1.0
+ƒобавить одну операцию по преобразованию типа, чтобы получалс€ ответ: d=1.0.
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+        int a = 257;
+        int b = 4;
+        int c = 3;
+        int e = 2;
+        double d = (byte) a + b/c/e;
+
+        System.out.println(d);
+    }
+}

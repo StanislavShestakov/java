@@ -1,0 +1,692 @@
+package com.javarush.test.level15.lesson04.task05;
+
+/* Все лишнее - прочь!
+Убрать в методе main лишние строки, для которых метод add нереализован.
+*/
+
+public class Solution {
+    public static void main(String[] args) {
+        add((short) 1, 2f);
+        add(1, 2);
+        add(2d, 2);
+        add((byte) 1, 2d);
+    }
+
+    public static void add(int i, int j) {
+        System.out.println("Integer addition");
+    }
+
+    public static void add(int i, double j) {
+        System.out.println("Integer and double addition");
+    }
+
+    public static void add(double i, double j) {
+        System.out.println("Double addition");
+    }
+}
+
+
+package com.javarush.test.level15.lesson04.task04;
+
+/* Мужчина или женщина?
+1. В методе main создать 2 человека man и woman. man с типом Man, woman с типом Woman.
+2. Изменить метод printName так, чтобы он выполнялся для man и woman.
+3. Реализация метода printName должна быть одна.
+*/
+
+public class Solution {
+    public static void main(String[] args) {
+        Human  man = new Man();
+        Human  woman = new Woman();
+
+        printName(man);
+        printName(woman);
+    }
+
+    public static void printName(Human man) {
+        if (man instanceof Man)
+            System.out.println(man);
+        if (man instanceof Woman)
+            System.out.println(man);
+
+
+    }
+
+    public static class Human {
+
+    }
+
+    public static class Man extends Human {
+
+    }
+
+    public static class Woman extends Human {
+
+    }
+}
+
+package com.javarush.test.level15.lesson04.task03;
+
+/* ООП - Перегрузка - убираем лишнее
+1. Подумайте, какая из реализаций метода print будет вызвана.
+2. Удалите все лишние реализации метода print.
+*/
+
+public class Solution {
+    public static void main(String[] args) {
+        print(1);
+    }
+
+  /*  public static void print(byte b) {
+        System.out.println("Я буду Java прогером!");
+    }*/
+ /*
+    public static void print(double d) {
+        System.out.println("Я буду Java прогером!");
+    }*/
+
+    public static void print(long l) {
+        System.out.println("Я буду Java прогером!");
+    }
+/*
+    public static void print(float f) {
+        System.out.println("Я буду Java прогером!");
+    }*/
+/*
+    public static void print(char c) {
+        System.out.println("Я буду Java прогером!");
+    }*/
+}
+
+Расширяющие преобразования чисел — это преобразования числового типа в «больший» числовой тип, которые считаются безопасными, т. к. не приводят к потере величины преобразуемого значения. Такими преобразованиями в Java являются:
+
+— преобразования byte в short, int, long, float и double;
+— преобразования short в int, long, float и double;
+— преобразования char в int, long, float и double;
+— преобразования int в long, float и double;
+— преобразования long в float и double;
+— преобразования float в double.
+
+Сужающие преобразования чисел — это преобразования числового типа в «меньший» числовой тип, которые могут привести как к потере величины, так и к потере точности. Такими преобразованиями в Java являются:
+
+— преобразования byte в char;
+— преобразования short в byte и char;
+— преобразования int в byte, short и char;
+— преобразования long в byte, short, int и char;
+— преобразования float в byte, short, int, long и char;
+— преобразования double в byte, short, int, long, float и char;
+
+package com.javarush.test.level15.lesson04.task01;
+
+/* Что-то лишнее
+1. Программа должна выводить следующее:
+Это double
+Это Object
+Это double
+Это Integer
+Это double
+
+2 Удалите реализации всех лишних методов
+*/
+
+public class Solution {
+    public static void main(String[] args) {
+        print((short) 1);
+        print((Number) 1);
+        print(1);
+        print((Integer) 1);
+        print((int) 1);
+    }
+
+    public static void print(Integer i) {
+        System.out.println("Это Integer");
+    }
+/*
+    public static void print(int i) {
+        System.out.println("Это Integer");
+    }*/
+/*
+    public static void print(Short i) {
+        System.out.println("Это Object");
+    }*/
+
+    public static void print(Object i) {
+        System.out.println("Это Object");
+    }
+
+    public static void print(double i) {
+        System.out.println("Это double");
+    }
+
+   /* public static void print(Double i) {
+        System.out.println("Это double");
+    }*/
+/*
+    public static void print(float i) {
+        System.out.println("Это Double");
+    }*/
+}
+
+package com.javarush.test.level15.lesson04.task02;
+
+/* ООП - Перегрузка
+Перегрузите метод printMatrix 8 различными способами. В итоге должно получиться 10 различных методов printMatrix.
+*/
+
+public class Solution {
+    public static void main(String[] args) {
+        printMatrix(2, 3, "8");
+    }
+
+    public static void printMatrix(int m, int n, String value) {
+        System.out.println("Заполняем объектами String");
+        printMatrix(m, n, (Object) value);
+        printMatrix((short)m, (short)n, (Object) value);
+        printMatrix((long)m, (long)n, (Object) value);
+        printMatrix((float)m, (float)n, (Object) value);
+        printMatrix((double)m, (double)n, (Object) value);
+        printMatrix((Integer)m, (Integer)n, (Object) value);
+        printMatrix((float)m, (int)n, (Object) value);
+        printMatrix((int)m, (float)n, (Object) value);
+        printMatrix((double)m, (int)n, (Object) value);
+    }
+
+    public static void printMatrix(int m, int n, Object value) {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print(value);
+            }
+            System.out.println();
+        }
+    }
+
+    public static void printMatrix(short m, short n, Object value)
+    {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print(value);
+            }
+            System.out.println();
+        }
+    }
+
+    public static void printMatrix(long m, long n, Object value)
+    {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print(value);
+            }
+            System.out.println();
+        }
+    }
+    public static void printMatrix(double m, double n, Object value)
+    {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print(value);
+            }
+            System.out.println();
+        }
+    }
+    public static void printMatrix(float m, float n, Object value)
+    {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print(value);
+            }
+            System.out.println();
+        }
+    }
+    public static void printMatrix(Integer m, Integer n, Object value)
+    {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print(value);
+            }
+            System.out.println();
+        }
+    }
+    public static void printMatrix(int m, float n, Object value)
+    {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print(value);
+            }
+            System.out.println();
+        }
+    }
+    public static void printMatrix(float m, int n, Object value)
+    {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print(value);
+            }
+            System.out.println();
+        }
+    }
+    public static void printMatrix(double m, int n, Object value)
+    {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print(value);
+            }
+            System.out.println();
+        }
+    }
+}
+
+package com.javarush.test.level15.lesson06.task03;
+
+/* Максимально простой код 3
+Упрости код:
+- убери всё то, что будет генерироваться автоматически при компиляции
+- убери все наследования классов, которые и так будут добавлены автоматически при компиляции
+- убери все конструкторы, которые создаются и добавляются автоматически.
+*/
+
+public class Solution {
+    public static void main(String[] args) {
+    }
+
+    public interface Runnable {
+
+    }
+
+    public class Machine /*extends Object*/ implements Runnable {
+       // public Machine() {
+       //     super();
+       // }
+    }
+
+    public class Car extends Machine /*implements Runnable */{
+       // public Car() {
+       //     super();
+       // }
+    }
+}
+
+package com.javarush.test.level15.lesson06.task02;
+
+/* Максимально простой код 2
+Посмотри, что, связанное с конструкторами, может быть добавлено при компиляции, но в этой программе уже присутствует.
+Упрости код - удали все конструкторы и вызовы конструкторов супер-классов, которые создаются и добавляются автоматически.
+
+PS: Взаимосвязь между объектами классов NakedCat и NormalCat, SiamCat - Is-a (наследование): http://en.wikipedia.org/wiki/Is-a
+http://cs7002.vk.me/c7007/v7007577/1411a/_dAiEola310.jpg
+*/
+
+public class Solution {
+    public static void main(String[] args) {
+        SiamCat simka = new SiamCat("Simka");
+        NakedCat nakedSimka = simka.shave();
+    }
+
+    public static class NakedCat {
+
+    }
+
+    public static class NormalCat extends NakedCat {
+
+        public NormalCat() {
+            super();
+        }
+        public NormalCat(String name) {
+            System.out.println("My name is " + name);
+        }
+
+        public NakedCat shave() {
+            return this;
+        }
+    }
+
+    public static class SiamCat extends NormalCat {
+        public SiamCat(String name)
+        {
+
+        }
+    }
+
+}
+
+package com.javarush.test.level15.lesson06.task01;
+
+import java.io.Serializable;
+
+/* Максимально простой код 1
+Упрости код - убери все наследования классов, которые и так будут добавлены автоматически при компиляции
+PS: Взаимосвязь между объектами me и zapp - Has-a (использует): http://ru.wikipedia.org/wiki/Has-a
+*/
+
+public class Solution {
+    public static void main(String[] args) {
+        JuniorJavaDev me = new JuniorJavaDev();
+        System.out.println(me.askHubert("What do you think about level15.lesson06.task01?"));
+        System.out.println(me.askZapp("When will be the next update?"));
+    }
+
+    public interface SpecificSerializable extends Serializable {
+    }
+
+    public static class JavaDev  implements SpecificSerializable {
+        String answerQuestion(String question) {
+            return String.format("I'll be thinking of [%s]", question);
+        }
+    }
+
+    public static class JuniorJavaDev extends JavaDev  {
+        JavaDev zapp = new JavaDev();
+        JavaDev hubert = new JavaDev();
+
+        String askZapp(String question) {
+            return zapp.answerQuestion(question);
+        }
+
+        String askHubert(String question) {
+            return hubert.answerQuestion(question);
+        }
+    }
+}
+package com.javarush.test.level15.lesson09.task05;
+
+/* Статики 4
+Внутри статического блока:
+1. Создайте класс Cat
+2. Внутри Cat создайте поле класса String name = "Пушок"
+3. Создайте объект класса Cat - myCat
+4. Присвойте статическому объекту Object cat объект, созданный в п.3
+5. Выведите в консоль myCat.name
+*/
+
+public class Solution {
+    public static Object cat;
+    static
+    {
+        class Cat
+        {
+            public String name = "Пушок";
+        }
+
+        Cat myCat = new Cat();
+        cat = myCat;
+        System.out.println(myCat.name);
+    }
+}
+
+package com.javarush.test.level15.lesson09.task01;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/* Статики 1
+В статическом блоке инициализировать labels 5 различными парами.
+*/
+
+public class Solution {
+    public static Map<Double, String> labels = new HashMap<Double, String>();
+    static {
+        labels.put(1.,"1");
+        labels.put(2.,"2");
+        labels.put(3.,"3");
+        labels.put(4.,"4");
+        labels.put(5.,"5");
+    }
+
+    public static void main(String[] args) {
+        System.out.println(labels);
+    }
+}
+
+package com.javarush.test.level15.lesson09.task02;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+/* Статики 2
+1. В статическом блоке считайте две переменные с консоли А и В с типом int.
+2. Не забыть про IOException, который надо обработать в блоке catch.
+3. Закрыть поток ввода методом close().
+*/
+
+public class Solution {
+    public static int A;
+    public static int B;
+    static{
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        try
+        {
+            A = Integer.parseInt(reader.readLine());
+            B = Integer.parseInt(reader.readLine());
+            reader.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public static final int MIN = min(A, B);
+
+    public static void main(String[] args) {
+        System.out.println(MIN);
+    }
+
+    public static int min(int a, int b) {
+        return a < b ? a : b;
+    }
+}
+
+package com.javarush.test.level15.lesson09.task03;
+
+/* Статики 3
+1. Создать 7 public полей класса. Убедитесь, что они инициализируются дефолтными значениями.
+intVar с типом int
+doubleVar с типом double
+DoubleVar с типом Double
+booleanVar с типом boolean
+ObjectVar с типом Object
+ExceptionVar с типом Exception
+StringVar с типом String
+2. В методе main вывести их значения в заданном порядке.
+*/
+
+public class Solution {
+
+    public static   int intVar;
+    public static double doubleVar;
+    public static  Double DoubleVar;
+    public static  boolean booleanVar;
+    public static   Object ObjectVar;
+    public static   Exception ExceptionVar;
+    public static   String StringVar;
+
+    public static void main(String[] args) {
+        System.out.println(intVar);
+        System.out.println(doubleVar);
+        System.out.println(DoubleVar);
+        System.out.println(booleanVar);
+        System.out.println(ObjectVar);
+        System.out.println(ExceptionVar);
+        System.out.println(StringVar);
+    }
+}
+
+package com.javarush.test.level15.lesson09.task04;
+
+/* Статики и исключения
+В статическом блоке выбросьте RuntimeException
+В результате класс не загрузится, и вы увидите сообщение об ошибке вместо значения переменной B
+
+Exception in thread "main" java.lang.ExceptionInInitializerError
+at java.lang.Class.forName0(Native Method)
+at java.lang.Class.forName(Class.java:186)
+at com.intellij.rt.execution.application.AppMain.main(AppMain.java:113)
+Caused by: java.lang.RuntimeException:
+at com.javarush.test.level15.lesson09.task04.Solution.clinit(Solution.java:22)
+
+Hint: Нужно погуглить причину, если получилось следующее:
+java: initializer must be able to complete normally
+java: unreachable statement
+*/
+
+public class Solution {
+    public static int A = 0;
+
+    static {
+        //throw an exception here - выбросьте эксепшн тут
+        if (true)throw new RuntimeException();
+    }
+
+    public static int B = 5;
+
+    public static void main(String[] args) {
+        System.out.println(B);
+    }
+}
+
+package com.javarush.test.level15.lesson02.task04;
+
+import java.util.*;
+/* ООП - книги
+1. Создайте public static класс MarkTwainBook, который наследуется от Book. Имя автора [Mark Twain]. Параметр конструктора - имя книги.
+2. В классе MarkTwainBook реализуйте все абстрактные методы.
+3. Для метода getBook расширьте тип возвращаемого результата.
+4. Создайте по аналогии AgathaChristieBook. Имя автора [Agatha Christie].
+5. В классе Book реализуйте тело метода getOutputByBookType так, чтобы он возвращал:
+5.1. agathaChristieOutput для книг Агаты Кристи;
+5.2. markTwainOutput для книг Марка Твена.
+*/
+
+public class Solution {
+    public static void main(String[] args) {
+        List<Book> books = new LinkedList<Book>();
+        books.add(new MarkTwainBook("Tom Sawyer"));
+        books.add(new AgathaChristieBook("Hercule Poirot"));
+        System.out.println(books);
+    }
+
+    public abstract static class Book {
+        private String author;
+
+        public Book(String author) {
+            this.author = author;
+        }
+
+        public abstract Book getBook();
+
+        public abstract String getName();
+
+        private String getOutputByBookType() {
+            String agathaChristieOutput = author + ", " + getBook().getName() + " is a detective";
+            String markTwainOutput = getBook().getName() + " book was written by " + author;
+
+            String output = "output";
+            //Add your code here
+            if (this instanceof MarkTwainBook) {output = markTwainOutput;}
+            else output = agathaChristieOutput;
+
+
+            return output;
+        }
+
+        public String toString() {
+            return getOutputByBookType();
+        }
+    }
+
+    public static class MarkTwainBook extends Book {
+        public String bookName=null;
+
+        public MarkTwainBook(String bookName)
+        {
+            super("Mark Twain");
+            this.bookName = bookName;
+        }
+
+        @Override
+        public MarkTwainBook getBook()
+        {
+            return this;
+        }
+
+        @Override
+        public String getName()
+        {
+            return this.bookName;
+        }
+    }
+
+    public static class AgathaChristieBook extends  Book {
+        public String bookName;
+        public AgathaChristieBook(String book) {
+            super("Agatha Christie");
+            this.bookName = book;
+        }
+        @Override
+        public AgathaChristieBook getBook()
+        {
+            return this;
+        }
+
+        @Override
+        public String getName()
+        {
+            return this.bookName;
+        }
+    }
+}
+package com.javarush.test.level15.lesson12.bonus03;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.math.BigInteger;
+
+/* Факториал
+Написать метод, который вычисляет факториал - произведение всех чисел от 1 до введенного числа включая его.
+Пример: 4! = factorial(4) = 1*2*3*4 = 24
+1. Ввести с консоли число меньше либо равно 150.
+2. Реализовать функцию  factorial.
+3. Если введенное число меньше 0, то вывести 0.
+0! = 1
+*/
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        int input = Integer.parseInt(reader.readLine());
+        reader.close();
+
+        System.out.println(factorial(input));
+    }
+
+    public static String factorial(int n) {
+        //add your code here
+
+        if (n < 0)
+            return 0+"";
+        else
+        {
+            BigInteger ret = BigInteger.ONE;
+            for (int i = 1; i <= n; i++)
+            {
+                ret = ret.multiply(BigInteger.valueOf(i));
+            }
+            return ret +"";
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+

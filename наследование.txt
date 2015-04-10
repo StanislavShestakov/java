@@ -1,0 +1,458 @@
+package com.javarush.test.level07.lesson12.home06;
+
+/* Семья
+Создай класс Human с полями имя(String), пол(boolean),возраст(int), отец(Human), мать(Human).
+Создай объекты и заполни их так, чтобы получилось: Два дедушки, две бабушки, отец, мать, трое детей. Вывести объекты на экран.
+Примечание:
+Если написать свой метод String toString() в классе Human, то именно он будет использоваться при выводе объекта на экран.
+Пример вывода:
+Имя: Аня, пол: женский, возраст: 21, отец: Павел, мать: Катя
+Имя: Катя, пол: женский, возраст: 55
+Имя: Игорь, пол: мужской, возраст: 2, отец: Михаил, мать: Аня
+…
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+        Human gFather = new Human("Pavel", true, 55, null, null);
+        Human gMother = new Human("Anna", false, 54, null, null);
+        Human gFather1 = new Human("Anton", true, 56, null, null);
+        Human gMother1 = new Human("Marina", false, 57,  null, null);
+        Human Father = new Human("Katerina", true, 33, gMother , gFather);
+        Human Mother = new Human("Stanislav", false, 27, gMother1 , gFather1);
+        Human kid1 = new Human("Dima", true, 11,  Mother , Father);
+        Human kid2 = new Human("Alina", true, 7,  Mother , Father);
+        Human kid3 = new Human("Vadik", true, 3,  Mother , Father);
+
+        System.out.println(gFather);
+        System.out.println(gMother);
+        System.out.println(gFather);
+        System.out.println(gMother1);
+        System.out.println(Father);
+        System.out.println(Mother);
+        System.out.println(kid1);
+        System.out.println(kid2);
+        System.out.println(kid3);
+
+    }
+
+    public static class Human
+    {
+        private String name;
+        private boolean sex;
+        private int age;
+        private Human mother;
+        private Human father;
+        public Human(String name, boolean sex, int age, Human mother, Human father)
+        {
+            this.name = name;
+            this.sex = sex;
+            this.age = age;
+            this.mother = mother;
+            this.father = father;
+
+        }
+        //Написать тут ваш код
+
+        public String toString()
+        {
+            String text = "";
+            text += "Имя: " + this.name;
+            text += ", пол: " + (this.sex ? "мужской" : "женский");
+            text += ", возраст: " + this.age;
+
+            if (this.father != null)
+                text += ", отец: " + this.father.name;
+
+            if (this.mother != null)
+                text += ", мать: " + this.mother.name;
+
+            return text;
+        }
+    }
+
+}
+
+
+
+package com.javarush.test.level06.lesson11.bonus02;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+/* Нужно добавить в программу новую функциональность
+Задача: У каждой кошки есть имя и кошка-мама. Создать класс, который бы описывал данную ситуацию. Создать два объекта:
+кошку-дочь и кошку-маму. Вывести их на экран.
+Новая задача: У каждой кошки есть имя, кошка-папа и кошка-мама. Изменить класс Cat так, чтобы он мог описать данную ситуацию.
+Создать 6 объектов: маму, папу, сына, дочь, бабушку(мамина мама) и дедушку(папин папа).
+Вывести их всех на экран в порядке: дедушка, бабушка, папа, мама, сын, дочь.
+
+Пример ввода:
+дедушка Вася
+бабушка Мурка
+папа Котофей
+мама Василиса
+сын Мурчик
+дочь Пушинка
+
+Пример вывода:
+Cat name is дедушка Вася, no mother, no father
+Cat name is бабушка Мурка, no mother, no father
+Cat name is папа Котофей, no mother, father is дедушка Вася
+Cat name is мама Василиса, mother is бабушка Мурка, no father
+Cat name is сын Мурчик, mother is мама Василиса, father is папа Котофей
+Cat name is дочь Пушинка, mother is мама Василиса, father is папа Котофей
+*/
+
+public class Solution
+{
+    public static void main(String[] args) throws IOException
+    {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        String grandFatherName = reader.readLine();
+        Cat catGrandFather = new Cat(grandFatherName);
+
+        String granMotherName = reader.readLine();
+        Cat catGrandMother = new Cat(granMotherName);
+
+        String fatherName = reader.readLine();
+        Cat catFather = new Cat(fatherName,catGrandFather,null);
+
+        String motherName = reader.readLine();
+        Cat catMother = new Cat(motherName,null, catGrandMother);
+
+        String sonName = reader.readLine();
+        Cat catSon = new Cat(sonName, catFather, catMother);
+
+        String daughterName = reader.readLine();
+        Cat catDaughter = new Cat(daughterName, catFather, catMother);
+
+
+        System.out.println(catGrandFather);
+        System.out.println(catGrandMother);
+        System.out.println(catFather);
+        System.out.println(catMother);
+        System.out.println(catSon);
+        System.out.print(catDaughter);
+
+
+    }
+
+    public static class Cat
+    {
+        private String name;
+        private Cat father = null;
+        private Cat mother = null;
+
+        Cat(String name)
+        {
+            this.name = name;
+        }
+
+        Cat(String name, Cat father, Cat mother)
+        {
+            this.name = name;
+            this.father = father;
+            this.mother = mother;
+        }
+
+        @Override
+        public String toString()
+        {
+            String text = "Cat name is " + name + ", ";
+
+            if (this.mother != null)
+                text += "mother is " + this.mother.name;
+            else
+                text += "no mother";
+
+            if (this.father != null)
+                text += ", father is " + this.father.name ;
+            else
+                text += ", no father";
+
+
+
+            return text;
+        }
+    }
+
+}
+package com.javarush.test.level09.lesson11.home06;
+
+import java.util.ArrayList;
+
+/* Сказка «Красная Шапочка»
+1. Есть пять классов: красная шапочка, бабушка, пирожок, дровосек, волк.
+2. У каждого класса есть 2 поля: убил (killed ArrayList) и съел (ate ArrayList).
+3. Необходимые объекты созданы (hood, grandmother, ...).
+4. Расставь правильно связи, кто кого съел и убил, чтобы получилась логика сказки «Красная Шапочка».
+PS: пирожки никто не ел. Их только несли. Волк чуток поел. А его потом убили.
+*/
+
+public class Solution {
+    public static LittleRedRidingHood hood = new LittleRedRidingHood();
+    public static Grandmother grandmother = new Grandmother();
+    public static Patty patty = new Patty();
+    public static Woodman woodman = new Woodman();
+    public static Wolf wolf = new Wolf();
+
+    public static void main(String[] args) {
+        wolf.ate.add(grandmother);
+        wolf.ate.add(hood);
+        woodman.killed.add(wolf);
+    }
+
+    //красная шапочка
+    public static class LittleRedRidingHood extends StoryItem {
+    }
+
+    //бабушка
+    public static class Grandmother extends StoryItem {
+    }
+
+    //пирожок
+    public static class Patty extends StoryItem {
+    }
+
+    //дровосек
+    public static class Woodman extends StoryItem {
+    }
+
+    //волк
+    public static class Wolf extends StoryItem {
+    }
+
+    public static abstract class StoryItem {
+        public ArrayList<StoryItem> killed = new ArrayList<StoryItem>();
+        public ArrayList<StoryItem> ate = new ArrayList<StoryItem>();
+    }
+}
+
+
+package com.javarush.test.level08.lesson11.home06;
+
+/* Вся семья в сборе
+1. Создай класс Human с полями имя (String), пол (boolean), возраст (int), дети (ArrayList<Human>).
+2. Создай объекты и заполни их так, чтобы получилось: два дедушки, две бабушки, отец, мать, трое детей.
+3. Вывести все объекты Human на экран.
+*/
+
+import java.util.ArrayList;
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+        //Написать тут ваш код
+        Human son1 = new Human("son Lesha", true, 15, new ArrayList<Human>());
+        Human son2 = new Human("son Misha", true, 10, new ArrayList<Human>());
+        Human daughter = new Human("daughter Masha", false, 5, new ArrayList<Human>());
+        ArrayList<Human> ch = new ArrayList<Human>();
+        ch.add(son1);
+        ch.add(son2);
+        ch.add(daughter);
+
+        Human pa = new Human("papa Fedya", true, 40, ch);
+        Human ma = new Human("mama Lena", false, 35, ch);
+        ArrayList<Human> parrents1 = new ArrayList<Human>();
+        ArrayList<Human> parrents2 = new ArrayList<Human>();
+        parrents2.add(pa);
+        parrents1.add(ma);
+
+        Human grPa1 = new Human("ded Ivan", true, 70, parrents1);
+        Human grMa1 = new Human("baba Masha", false, 65, parrents1);
+        Human grPa2 = new Human("ded Ivan", true, 70, parrents2);
+        Human grMa2 = new Human("baba Masha", false, 65, parrents2);
+        //output
+        System.out.println(grPa1.toString());
+        System.out.println(grMa1.toString());
+        System.out.println(grPa2.toString());
+        System.out.println(grMa2.toString());
+        System.out.println(pa.toString());
+        System.out.println(ma.toString());
+        System.out.println(son1.toString());
+        System.out.println(son2.toString());
+        System.out.println(daughter.toString());
+    }
+
+    public static class Human
+    {
+        //Написать тут ваш код
+
+        private String name;
+        private int age;
+        private boolean sex;
+
+        ArrayList<Human> children;
+
+        public Human(String name, boolean sex, int age, ArrayList<Human> children)
+        {
+            this.name = name;
+            this.sex = sex;
+            this.age = age;
+            this.children = children;
+        }
+
+        public String toString()
+        {
+            String text = "";
+            text += "Имя: " + this.name;
+            text += ", пол: " + (this.sex ? "мужской" : "женский");
+            text += ", возраст: " + this.age;
+
+            int childCount = this.children.size();
+            if (childCount > 0)
+            {
+                text += ", дети: "+this.children.get(0).name;
+
+                for (int i = 1; i < childCount; i++)
+                {
+                    Human child = this.children.get(i);
+                    text += ", "+child.name;
+                }
+            }
+
+            return text;
+        }
+    }
+
+}
+
+package com.javarush.test.level14.lesson08.home01;
+
+/* Мосты
+1. Создать интерфейс Bridge с методом int getCarsCount().
+2. Создать классы WaterBridge и SuspensionBridge, которые реализуют интерфейс Bridge.
+3. Метод getCarsCount() должен возвращать любое значение типа int.
+4. Метод getCarsCount должен возвращать различные значения для различных классов.
+5. В классе Solution создать публичный метод println(Bridge bridge).
+6. В методе println вывести на консоль значение getCarsCount() для объекта bridge.
+7. Каждый класс и интерфейс должны быть в отдельных файлах.
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+        println((Bridge) new WaterBridge());
+        println((Bridge) new SuspensionBridge());
+
+
+    }
+
+    public static void println(Bridge bridge)
+    {
+        System.out.println(bridge.getCarsCount());
+    }
+
+    //add println method here
+}
+package com.javarush.test.level14.lesson08.home01;
+
+/**
+ * Created by Stanislav on 30.03.2015.
+ */
+public class SuspensionBridge implements Bridge
+{
+    @Override
+    public int getCarsCount(){
+        return 88;
+    }
+}
+package com.javarush.test.level14.lesson08.home01;
+
+/**
+ * Created by Stanislav on 30.03.2015.
+ */
+public class WaterBridge implements Bridge
+{
+
+    public int getCarsCount(){
+        return 78;
+    }
+}
+package com.javarush.test.level14.lesson08.home01;
+
+/**
+ * Created by Stanislav on 30.03.2015.
+ */
+interface Bridge
+{
+    public int getCarsCount();
+}
+
+
+package com.javarush.test.level12.lesson12.home01;
+
+/* Метод getName в классе Cat
+Переопредели метод getName в классе Cat так, чтобы программа выдавала на экран надпись
+«Я - кот».
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+        Pet pet = new Cat();
+
+        System.out.println(pet.getName());
+    }
+
+    public static class Pet
+    {
+        public String getName()
+        {
+            return "Я - пушистик";
+        }
+    }
+
+    public static class Cat extends Pet
+    {
+        @Override
+        public String getName()
+        {
+            return "Я - кот";
+        }
+    }
+}
+
+package com.javarush.test.level13.lesson11.home09;
+
+import java.awt.*;
+
+/* Один метод в классе
+1. Унаследовать Fox от интерфейса Animal.
+2. Поменяй код так, чтобы в классе Fox был только один метод - getName.
+3. Методы удалять нельзя!
+*/
+
+public class Solution
+{
+    public static void main(String[] args) throws Exception
+    {
+    }
+
+    public interface Animal
+    {
+        Color getColor();
+
+        Integer getAge();
+    }
+
+    public static abstract class Fox implements Animal
+    {
+        public String getName()
+        {
+
+            return "Fox";
+        }
+    }
+}
+
+
+

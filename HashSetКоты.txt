@@ -1,0 +1,164 @@
+package com.javarush.test.level08.lesson11.home02;
+
+import java.util.HashSet;
+import java.util.Set;
+
+/* Множество всех животных
+1. Внутри класса Solution создать public static классы Cat, Dog.
+2. Реализовать метод createCats, котороый должен возвращать множество с 4 котами.
+3. Реализовать метод createDogs, котороый должен возвращать множество с 3 собаками.
+4. Реализовать метод join, котороый должен возвращать объединенное множество всех животных - всех котов и собак.
+5. Реализовать метод removeCats, котороый должен удалять из множества pets всех котов, которые есть в множестве cats.
+6. Реализовать метод printPets, котороый должен выводить на экран всех животных, которые в нем есть. Каждое животное с новой строки
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+        Set<Cat> cats = createCats();
+        Set<Dog> dogs = createDogs();
+
+        Set<Object> pets = join(cats, dogs);
+        printPets(pets);
+
+        removeCats(pets, cats);
+        printPets(pets);
+    }
+
+    public static Set<Cat> createCats()
+    {
+        HashSet<Cat> result = new HashSet<Cat>();
+
+        result.add(new Cat());
+        result.add(new Cat());
+        result.add(new Cat());
+        result.add(new Cat());
+
+        return result;
+    }
+
+    public static Set<Dog> createDogs()
+    {
+        HashSet<Dog> resultD = new HashSet<Dog>();
+        resultD.add(new Dog());
+        resultD.add(new Dog());
+        resultD.add(new Dog());
+
+        return resultD;
+    }
+
+    public static Set<Object> join(Set<Cat> cats, Set<Dog> dogs)
+    {
+        Set<Object> pets = new HashSet<Object>();
+
+        pets.addAll(cats);
+        pets.addAll(dogs);
+
+        return pets;
+    }
+
+    public static void removeCats(Set<Object> pets, Set<Cat> cats)
+    {
+        pets.removeAll(cats);
+    }
+
+    public static void printPets(Set<Object> pets)
+    {
+        for (Object pet : pets)
+        {
+            System.out.println(pet);
+        }
+
+        System.out.println();
+    }
+
+    public static class Cat
+{
+
+}
+
+    public static class Dog
+    {
+
+    }
+}
+
+package com.javarush.test.level09.lesson11.home09;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+/* Десять котов
+Создать класс кот – Cat, с полем «имя» (String).
+Создать словарь Map(<String, Cat>) и добавить туда 10 котов в виде «Имя»-«Кот».
+Получить из Map множество(Set) всех имен и вывести его на экран.
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+        Map<String, Cat> map = createMap();
+        Set<Cat> set = convertMapToSet(map);
+        printCatSet(set);
+    }
+
+    public static Map<String, Cat> createMap()
+    {
+        //Напишите тут ваш код
+        HashMap<String, Cat> map = new HashMap<String, Cat>();
+        Cat cat1= new Cat("Vasilyy1"); map.put("Vasilyy1",cat1);
+        Cat cat2= new Cat("Vasilyy2"); map.put("Vasilyy2",cat2);
+        Cat cat3= new Cat("Vasilyy3"); map.put("Vasilyy3",cat3);
+        Cat cat4= new Cat("Vasilyy4"); map.put("Vasilyy4",cat4);
+        Cat cat5= new Cat("Vasilyy5"); map.put("Vasilyy5",cat5);
+        Cat cat6= new Cat("Vasilyy6"); map.put("Vasilyy6",cat6);
+        Cat cat7= new Cat("Vasilyy7"); map.put("Vasilyy7",cat7);
+        Cat cat8= new Cat("Vasilyy8"); map.put("Vasilyy8",cat8);
+        Cat cat9= new Cat("Vasilyy9"); map.put("Vasilyy9",cat9);
+        Cat cat0= new Cat("Vasilyy0"); map.put("Vasilyy0",cat0);
+
+        return map;
+    }
+
+    public static Set<Cat> convertMapToSet(Map<String, Cat> map)
+    {
+
+        //Напишите тут ваш код
+        HashSet<Cat> catSet = new HashSet<Cat>();
+        for (Map.Entry<String,Cat> pair: map.entrySet() ) {
+            Cat a = pair.getValue();
+            catSet.add(a);
+        }
+        return catSet;
+    }
+
+    public static void printCatSet(Set<Cat> set)
+    {
+        for (Cat cat:set)
+        {
+            System.out.println(cat);
+        }
+    }
+
+    public static class Cat
+    {
+        private String name;
+
+        public Cat(String name)
+        {
+            this.name = name;
+        }
+
+        public String toString()
+        {
+            return "Cat "+this.name;
+        }
+    }
+
+
+}
+

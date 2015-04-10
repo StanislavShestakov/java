@@ -1,0 +1,112 @@
+package com.javarush.test.level06.lesson11.home04;
+
+/* Минимальное количество static-ов
+Расставьте минимальное количество static-ов, чтобы код начал работать, и программа успешно завершилась
+*/
+
+public class Solution
+{
+    public static int step;
+
+    public static void main(String[] args) {
+        method1();
+    }
+
+    public static void method1() {
+        method2();
+    }
+
+
+    public static void method2() {
+        new Solution().method3();
+    }
+
+    public void method3() {
+        method4();
+    }
+
+    public void method4() {
+        step++;
+        for (StackTraceElement element : Thread.currentThread().getStackTrace())
+            System.out.println(element);
+        if (step > 1) return;
+        main(null);
+    }
+}
+
+
+package com.javarush.test.level06.lesson11.home05;
+
+/* Есть новые идеи? Подумаем...
+1. В классе Solution создать public статический класс Idea
+2. В классе Idea создать метод public String getDescription(), который будет возвращать любой непустой текст
+3. В классе Solution создайте статический метод public void printIdea(Idea idea), который будет выводить
+на экран описание идеи - это то, что возвращает метод getDescription
+*/
+
+public class Solution
+{
+    public static void main(String[] args)
+    {
+        printIdea(new Idea());
+
+    }
+    public static void printIdea(Idea idea)
+    {
+        System.out.println(idea.getDescription());
+    }
+    //добавьте класс Idea тут
+    public static class Idea
+    {   public String getDescription()
+    {
+        return "text";
+    }
+
+    }
+}
+
+package com.javarush.test.level06.lesson11.home07;
+
+import java.util.ArrayList;
+
+/* Три статические переменных name
+Создай 3 public статических переменных: String Solution.name, String Cat.name, String Dog.name
+*/
+
+public class Solution
+{
+    static String name;
+    public static class Cat {
+        static String name;
+    }
+
+    public static class Dog {
+        static String name;
+    }
+}
+
+package com.javarush.test.level07.lesson12.home07;
+
+/* Переставь один модификатор static
+Переставь один модификатор static, чтобы пример скомпилировался.
+*/
+
+public class Solution
+{
+    public static final int A = 5;
+    public final static int B = 2;
+    public final static int C = A*B;
+
+    public static void main(String[] args)
+    {
+    }
+
+    public  int getValue()
+    {
+        return C;
+    }
+
+}
+
+
+
